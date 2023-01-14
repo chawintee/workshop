@@ -43,14 +43,14 @@ func (h handler) Transfer(c echo.Context) error {
 	}
 
 	var sourcePocket ResponseCloudPockets
-	err = h.db.QueryRowContext(ctx, sStmt, t.Amount, t.SourceCloudPocketID).Scan(&sourcePocket)
+	err = h.db.QueryRowContext(ctx, sStmt, t.Amount, t.SourceCloudPocketID).Scan(&sourcePocket.ID, &sourcePocket.Name, &sourcePocket.Category, &sourcePocket.Currency, &sourcePocket.Category)
 	if err != nil {
 		logger.Error("query row error", zap.Error(err))
 		return err
 	}
 
 	var destinationPocket ResponseCloudPockets
-	err = h.db.QueryRowContext(ctx, dStmt, t.Amount, t.DestinationCloudPocketID).Scan(&destinationPocket)
+	err = h.db.QueryRowContext(ctx, dStmt, t.Amount, t.DestinationCloudPocketID).Scan(&destinationPocket.ID, &destinationPocket.Name, &destinationPocket.Category, &destinationPocket.Currency, &destinationPocket.Category)
 	if err != nil {
 		logger.Error("query row error", zap.Error(err))
 		return err
