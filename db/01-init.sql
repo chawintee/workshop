@@ -5,4 +5,3 @@ CREATE TABLE IF NOT EXISTS accounts (
     "balance" float8 NOT NULL DEFAULT 0,
     PRIMARY KEY ("id")
 );
-
