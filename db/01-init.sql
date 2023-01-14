@@ -5,3 +5,4 @@ CREATE TABLE "accounts" (
     "balance" float8 NOT NULL DEFAULT 0,
     PRIMARY KEY ("id")
 );
+

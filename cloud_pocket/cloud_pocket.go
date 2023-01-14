@@ -28,8 +28,8 @@ func New(cfgFlag config.FeatureFlag, db *sql.DB) *handler {
 }
 
 const (
-	cStmt         = "INSERT INTO accounts (balance) VALUES ($1) RETURNING id;"
-	cBalanceLimit = 10000
+	cStmt = "INSERT INTO cloud_pockets (balance, name, category, currency) VALUES ($1, $2, $3, $4) RETURNING id;"
+	// cBalanceLimit = 10000
 )
 
 var (
@@ -37,29 +37,29 @@ var (
 		"create account balance exceed limitation")
 )
 
-func (h handler) Create(c echo.Context) error {
+func (h handler) GetAll(c echo.Context) error {
 	logger := mlog.L(c)
 	ctx := c.Request().Context()
-	var ac Account
-	err := c.Bind(&ac)
+	var cp CloudPocket
+	err := c.Bind(&cp)
 	if err != nil {
 		logger.Error("bad request body", zap.Error(err))
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body", err.Error())
 	}
 
-	if h.cfg.IsLimitMaxBalanceOnCreate && ac.Balance > cBalanceLimit {
+	if h.cfg.IsLimitMaxBalanceOnCreate && cp.Balance > cBalanceLimit {
 		logger.Error("account limit on account creating", zap.Error(hErrBalanceLimitExceed))
 		return hErrBalanceLimitExceed
 	}
 
 	var lastInsertId int64
-	err = h.db.QueryRowContext(ctx, cStmt, ac.Balance).Scan(&lastInsertId)
+	err = h.db.QueryRowContext(ctx, cStmt, cp.Balance).Scan(&lastInsertId)
 	if err != nil {
 		logger.Error("query row error", zap.Error(err))
 		return err
 	}
 
 	logger.Info("create successfully", zap.Int64("id", lastInsertId))
-	ac.ID = lastInsertId
-	return c.JSON(http.StatusCreated, ac)
+	cp.ID = lastInsertId
+	return c.JSON(http.StatusCreated, cp)
 }
