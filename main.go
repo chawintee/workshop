@@ -10,12 +10,17 @@ import (
 	"os/signal"
 	"time"
 
+	_ "embed"
+
 	"github.com/kkgo-software-engineering/workshop/config"
 	"github.com/kkgo-software-engineering/workshop/router"
 	"go.uber.org/zap"
 
 	_ "github.com/lib/pq"
 )
+
+//go:embed db/01-init-pocket.sql
+var Sql_01_init_pocket string
 
 func main() {
 	cfg := config.New().All()
