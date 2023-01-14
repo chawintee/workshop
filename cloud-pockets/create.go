@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-type Response struct {
-	Id       string  `json:"id"`
+type PocketResponse struct {
+	ID       string  `json:"id"`
 	Name     string  `json:"name"`
 	Category string  `json:"category"`
 	Currency string  `json:"currency"`
@@ -44,13 +44,21 @@ func (h handler) Create(c echo.Context) error {
 	//logger := mlog.L(c)
 	//ctx := c.Request().Context()
 	var cp CloudPockets
+
 	err := c.Bind(&cp)
 	if err != nil {
 		//logger.Error("bad request body", zap.Error(err))
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body", err.Error())
 	}
 
+	pr := PocketResponse{
+		ID:       "246810",
+		Name:     "Travel Fund",
+		Category: "Vacation",
+		Currency: "THB",
+		Balance:  100.00,
+	}
 	//logger.Info("create successfully", zap.Int64("id", 1))
 	//cp.ID = 1
-	return c.JSON(http.StatusCreated, cp)
+	return c.JSON(http.StatusCreated, pr)
 }
