@@ -1,8 +1,6 @@
-package cloud_pockets
+package cloud_pocket
 
 import (
-	"database/sql"
-	"github.com/kkgo-software-engineering/workshop/config"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -21,24 +19,15 @@ type CloudPockets struct {
 	InitialBalance float64 `json:"initial_balance"`
 }
 
-type handler struct {
-	cfg config.FeatureFlag
-	db  *sql.DB
-}
+//const (
+//	cStmt         = "INSERT INTO accounts (balance) VALUES ($1) RETURNING id;"
+//	cBalanceLimit = 10000
+//)
 
-func New(cfgFlag config.FeatureFlag, db *sql.DB) *handler {
-	return &handler{cfgFlag, db}
-}
-
-const (
-	cStmt         = "INSERT INTO accounts (balance) VALUES ($1) RETURNING id;"
-	cBalanceLimit = 10000
-)
-
-var (
-	hErrBalanceLimitExceed = echo.NewHTTPError(http.StatusBadRequest,
-		"create account balance exceed limitation")
-)
+//var (
+//	hErrBalanceLimitExceed = echo.NewHTTPError(http.StatusBadRequest,
+//		"create account balance exceed limitation")
+//)
 
 func (h handler) Create(c echo.Context) error {
 	//logger := mlog.L(c)
