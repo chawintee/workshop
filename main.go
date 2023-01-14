@@ -22,9 +22,16 @@ import (
 //go:embed db/01-init-pocket.sql
 var Sql_01_init_pocket string
 
+//go:embed db/01-init.sql
+var Sql_01_init_account string
+
 func initCoundPocketTable(db *sql.DB) {
 	if _, err := db.Exec(Sql_01_init_pocket); err != nil {
-		log.Fatal("can't create table ", err)
+		log.Fatal("can't create table pocket ", err)
+	}
+
+	if _, err := db.Exec(Sql_01_init_account); err != nil {
+		log.Fatal("can't create table account ", err)
 	}
 }
 
