@@ -6,13 +6,10 @@ CREATE TABLE "accounts" (
     PRIMARY KEY ("id")
 );
 
-CREATE SEQUENCE IF NOT EXISTS transaction_id;
-
 CREATE TABLE "transactions" (
-    "transaction_id" int4 NOT NULL DEFAULT nextval('transaction_id'::regclass),
+    "transaction_id" SERIAL PRIMARY KEY,
     "source_cloud_pocket_id" int4 NOT NULL,
     "destination_cloud_pocket_id" int4 NOT NULL,
     "amount" float8 NOT NULL,
-    "description" text,
-    PRIMARY KEY ("transaction_id")
+    "description" text
 );

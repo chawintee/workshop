@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	sStmt       = "UPDATE ;"
-	dStmt       = "UPDATE ;"
+	sStmt       = "UPDATE cloud_pockets;"
+	dStmt       = "UPDATE cloud_pockets;"
 	historyStmt = "INSERT INTO transactions (source_cloud_pocket_id, destination_cloud_pocket_id, amount, description) VALUES ($1, $2, $3, $4) RETURNING transaction_id;"
 )
 
