@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/lib/pq"
 )
 
 type PocketResponse struct {
@@ -42,8 +41,8 @@ func (h handler) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body", err.Error())
 	}
 
-	err = h.db.QueryRow("INSERT INTO expenses (title,amount,note,tags) values ($1,$2,$3,$4) RETURNING title,amount,note,tags,id", req.Title, req.Amount, req.Note, pq.Array(req.Tags)).
-		Scan(&res.Title, &res.Amount, &res.Note, pq.Array(&res.Tags), &res.ID)
+	// err = h.db.QueryRow("INSERT INTO expenses (title,amount,note,tags) values ($1,$2,$3,$4) RETURNING title,amount,note,tags,id", req.Title, req.Amount, req.Note, pq.Array(req.Tags)).
+	// 	Scan(&res.Title, &res.Amount, &res.Note, pq.Array(&res.Tags), &res.ID)
 
 	pr := PocketResponse{
 		ID:       "246810",

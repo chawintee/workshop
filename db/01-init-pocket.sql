@@ -3,6 +3,6 @@ CREATE TABLE IF NOT EXISTS cloud_pockets (
     "balance" float8 NOT NULL DEFAULT 0,
     "name" TEXT NOT NULL,
     "category" TEXT NOT NULL,
-    "currency" TEXT NOT NULL DEFAULT "THB",
-    -- PRIMARY KEY ("id")
+    "currency" TEXT NOT NULL 
+        -- PRIMARY KEY ("id")
 );
