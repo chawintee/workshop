@@ -1,11 +1,9 @@
+//go:build unitget
+
 package cloud_pocket
 
-////go:build unitget
-
 import (
-
-	// "errors"
-
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -37,12 +35,12 @@ func TestGetAll(t *testing.T) {
 	entities := []*ResponseCloudPockets{}
 	entities = append(entities, entity1)
 	entities = append(entities, entity2)
-	newsMockRows := sqlmock.NewRows([]string{"id", "name", "balance", "category", "currency"}).
-		AddRow(entity1.ID, entity1.Name, entity1.Balance, entity1.Category, entity1.Currency).
-		AddRow(entity2.ID, entity2.Name, entity2.Balance, entity2.Category, entity2.Currency)
-	mock.ExpectPrepare(regexp.QuoteMeta("SELECT id, name, balance, category, currency FROM cloud_pockets")).ExpectQuery().WillReturnRows(newsMockRows)
-	// entitiesJson, err := json.Marshal(entities)
-	// assert.NoError(t, err)
+	newsMockRows := sqlmock.NewRows([]string{"id", "name", "balance", "currency", "category"}).
+		AddRow(entity1.ID, entity1.Name, entity1.Balance, entity1.Currency, entity1.Category).
+		AddRow(entity2.ID, entity2.Name, entity2.Balance, entity2.Currency, entity2.Category)
+	mock.ExpectPrepare(regexp.QuoteMeta("SELECT id, name, balance, currency, category FROM cloud_pockets")).ExpectQuery().WillReturnRows(newsMockRows)
+	entitiesJson, err := json.Marshal(entities)
+	assert.NoError(t, err)
 
 	e := echo.New()
 	req := httptest.NewRequest(http.MethodGet, "/cloud-pockets", strings.NewReader(""))
@@ -51,12 +49,12 @@ func TestGetAll(t *testing.T) {
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 
-	// db, err := tc.sqlFn()
 	h := New(config.FeatureFlag{}, db)
 	// Assertions
 	assert.NoError(t, err)
 	if assert.NoError(t, h.GetAll(c)) {
+
 		assert.Equal(t, http.StatusOK, rec.Code)
-		// assert.JSONEq(t, string(entitiesJson), rec.Body.String())
+		assert.JSONEq(t, string(entitiesJson), rec.Body.String())
 	}
 }
