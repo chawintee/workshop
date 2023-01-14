@@ -1,13 +1,11 @@
-package account
+package cloud_pocket
 
 import (
 	"database/sql"
 	"net/http"
 
 	"github.com/kkgo-software-engineering/workshop/config"
-	"github.com/kkgo-software-engineering/workshop/mlog"
 	"github.com/labstack/echo/v4"
-	"go.uber.org/zap"
 )
 
 type CloudPocket struct {
@@ -36,30 +34,3 @@ var (
 	hErrBalanceLimitExceed = echo.NewHTTPError(http.StatusBadRequest,
 		"create account balance exceed limitation")
 )
-
-func (h handler) GetAll(c echo.Context) error {
-	logger := mlog.L(c)
-	ctx := c.Request().Context()
-	var cp CloudPocket
-	err := c.Bind(&cp)
-	if err != nil {
-		logger.Error("bad request body", zap.Error(err))
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request body", err.Error())
-	}
-
-	if h.cfg.IsLimitMaxBalanceOnCreate && cp.Balance > cBalanceLimit {
-		logger.Error("account limit on account creating", zap.Error(hErrBalanceLimitExceed))
-		return hErrBalanceLimitExceed
-	}
-
-	var lastInsertId int64
-	err = h.db.QueryRowContext(ctx, cStmt, cp.Balance).Scan(&lastInsertId)
-	if err != nil {
-		logger.Error("query row error", zap.Error(err))
-		return err
-	}
-
-	logger.Info("create successfully", zap.Int64("id", lastInsertId))
-	cp.ID = lastInsertId
-	return c.JSON(http.StatusCreated, cp)
-}
