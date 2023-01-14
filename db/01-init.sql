@@ -6,3 +6,10 @@ CREATE TABLE "accounts" (
     PRIMARY KEY ("id")
 );
 
+CREATE TABLE "transactions" (
+    "transaction_id" SERIAL PRIMARY KEY,
+    "source_cloud_pocket_id" int4 NOT NULL,
+    "destination_cloud_pocket_id" int4 NOT NULL,
+    "amount" float8 NOT NULL,
+    "description" text
+);
