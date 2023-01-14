@@ -23,7 +23,7 @@ type RequestCloudPockets struct {
 }
 
 const (
-	createStmt    = "INSERT INTO cloud_pockets (name,balance,currency,category) values ($1,$2,$3,$4) RETURNING name,balance,currency,category,id;"
+	createStmt    = "INSERT INTO cloud_pockets (name,balance,currency,category, account_id) values ($1,$2,$3,$4,$5) RETURNING name,balance,currency,category,id;"
 	cBalanceLimit = 10000
 )
 
@@ -43,7 +43,7 @@ func (h handler) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body", err.Error())
 	}
 
-	err = h.db.QueryRow(createStmt, req.Name, req.InitialBalance, req.Currency, req.Category).
+	err = h.db.QueryRow(createStmt, req.Name, req.InitialBalance, req.Currency, req.Category, 1).
 		Scan(&res.Name, &res.Balance, &res.Currency, &res.Category, &res.ID)
 
 	logger.Info("create successfully", zap.Int64("id", res.ID))
