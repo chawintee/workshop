@@ -1,10 +1,15 @@
 package cloud_pocket
 
 import (
+<<<<<<< HEAD
 	"github.com/kkgo-software-engineering/workshop/mlog"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
+=======
+>>>>>>> f852357add66335a098c330ad6b9c780ec95e09c
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 type ResponseCloudPockets struct {
@@ -43,8 +48,10 @@ func (h handler) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body", err.Error())
 	}
 
+
 	err = h.db.QueryRow(cStmt, req.Name, req.InitialBalance, req.Currency, req.Category).
 		Scan(&res.Name, &res.Balance, &res.Currency, &res.Category, &res.ID)
+
 
 	logger.Info("create successfully", zap.Int64("id", res.ID))
 	return c.JSON(http.StatusCreated, res)

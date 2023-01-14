@@ -19,3 +19,7 @@ test-integration:
 test-e2e:
 	docker-compose -f docker-compose.e2e-test.yaml down && \
 	docker-compose -f docker-compose.e2e-test.yaml up --build --force-recreate --abort-on-container-exit --exit-code-from e2e_test
+
+devdev:
+	DB_CONNECTION=postgresql://group-3:group-3-pass@database-1.c7bdavepehea.ap-southeast-1.rds.amazonaws.com/group-3-dev PORT=2565 go run main.go
+
