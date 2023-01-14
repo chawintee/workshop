@@ -22,6 +22,12 @@ import (
 //go:embed db/01-init-pocket.sql
 var Sql_01_init_pocket string
 
+func initCoundPocketTable(db *sql.DB) {
+	if _, err := db.Exec(Sql_01_init_pocket); err != nil {
+		log.Fatal("can't create table ", err)
+	}
+}
+
 func main() {
 	cfg := config.New().All()
 
@@ -34,6 +40,8 @@ func main() {
 	if err != nil {
 		logger.Fatal("unable to configure database", zap.Error(err))
 	}
+
+	initCoundPocketTable(sql)
 
 	e := router.RegRoute(cfg, logger, sql)
 
