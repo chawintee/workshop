@@ -2,7 +2,7 @@ package router
 
 import (
 	"database/sql"
-	cloud_pockets "github.com/kkgo-software-engineering/workshop/cloud-pockets"
+	cloud_pockets "github.com/kkgo-software-engineering/workshop/cloud_pocket"
 	"net/http"
 
 	"github.com/kkgo-software-engineering/workshop/account"
