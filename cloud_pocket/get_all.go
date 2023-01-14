@@ -25,7 +25,7 @@ const (
 
 func (h handler) GetAll(c echo.Context) error {
 	logger := mlog.L(c)
-	stmt, err := h.db.Prepare("SELECT * FROM cloud_pockets")
+	stmt, err := h.db.Prepare("SELECT id, name, balance, category, currency  FROM cloud_pockets")
 	if err != nil {
 		logger.Error("query prepare error", zap.Error(err))
 	}

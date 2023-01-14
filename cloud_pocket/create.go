@@ -7,7 +7,7 @@ import (
 )
 
 type PocketResponse struct {
-	ID       string  `json:"id"`
+	ID       int     `json:"id"`
 	Name     string  `json:"name"`
 	Category string  `json:"category"`
 	Currency string  `json:"currency"`
@@ -45,7 +45,7 @@ func (h handler) Create(c echo.Context) error {
 	// 	Scan(&res.Title, &res.Amount, &res.Note, pq.Array(&res.Tags), &res.ID)
 
 	pr := PocketResponse{
-		ID:       "246810",
+		ID:       246810,
 		Name:     "Travel Fund",
 		Category: "Vacation",
 		Currency: "THB",
