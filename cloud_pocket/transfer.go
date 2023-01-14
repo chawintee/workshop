@@ -42,14 +42,14 @@ func (h handler) Transfer(c echo.Context) error {
 		return hErrNotEnoughBalance
 	}
 
-	var sourcePocket CloudPocket
+	var sourcePocket ResponseCloudPockets
 	err = h.db.QueryRowContext(ctx, sStmt, t.Amount, t.SourceCloudPocketID).Scan(&sourcePocket)
 	if err != nil {
 		logger.Error("query row error", zap.Error(err))
 		return err
 	}
 
-	var destinationPocket CloudPocket
+	var destinationPocket ResponseCloudPockets
 	err = h.db.QueryRowContext(ctx, dStmt, t.Amount, t.DestinationCloudPocketID).Scan(&destinationPocket)
 	if err != nil {
 		logger.Error("query row error", zap.Error(err))
