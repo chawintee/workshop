@@ -2,7 +2,6 @@ package cloud_pocket
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 
 	"github.com/kkgo-software-engineering/workshop/config"
@@ -26,7 +25,6 @@ const (
 
 func (h handler) GetAll(c echo.Context) error {
 	logger := mlog.L(c)
-	fmt.Printf("ingetall %#v", h.db)
 	stmt, err := h.db.Prepare("SELECT * FROM cloud_pockets")
 	if err != nil {
 		logger.Error("query prepare error", zap.Error(err))
@@ -35,7 +33,6 @@ func (h handler) GetAll(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
-
 	cloudPockets := []PocketResponse{}
 	for rows.Next() {
 		var p PocketResponse
@@ -45,7 +42,6 @@ func (h handler) GetAll(c echo.Context) error {
 		}
 		cloudPockets = append(cloudPockets, p)
 	}
-
 	return c.JSON(http.StatusOK, cloudPockets)
 
 }
