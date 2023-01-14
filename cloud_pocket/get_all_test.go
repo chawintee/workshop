@@ -22,19 +22,19 @@ func TestGetAll(t *testing.T) {
 
 	db, mock, err := sqlmock.New()
 	assert.NoError(t, err)
-	entity1 := &PocketResponse{
+	entity1 := &ResponseCloudPockets{
 		ID:       1,
 		Name:     "test-name",
 		Balance:  100.00,
 		Category: "test-category",
 		Currency: "test-currency"}
-	entity2 := &PocketResponse{
+	entity2 := &ResponseCloudPockets{
 		ID:       2,
 		Name:     "test-name",
 		Balance:  100.00,
 		Category: "test-category",
 		Currency: "test-currency"}
-	entities := []*PocketResponse{}
+	entities := []*ResponseCloudPockets{}
 	entities = append(entities, entity1)
 	entities = append(entities, entity2)
 	newsMockRows := sqlmock.NewRows([]string{"id", "name", "balance", "category", "currency"}).
