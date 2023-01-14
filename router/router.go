@@ -38,9 +38,7 @@ func RegRoute(cfg config.Config, logger *zap.Logger, db *sql.DB) *echo.Echo {
 	cloudPockets := cloud_pockets.New(cfg.FeatureFlag, db)
 	e.POST("/cloud-pockets", cloudPockets.Create)
 	e.GET("/cloud-pockets", cloudPockets.GetAll)
-
-	cloudPocketsById := cloud_pockets.New(cfg.FeatureFlag, db)
-	e.POST("/cloud-pockets/:id", cloudPocketsById.Create)
+	e.POST("/cloud-pockets/:id", cloudPockets.GetById)
 
 	return e
 }

@@ -7,6 +7,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/kkgo-software-engineering/workshop/config"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
@@ -14,26 +15,48 @@ import (
 
 func TestGetById(t *testing.T) {
 	tests := []struct {
-		name    string
-		cfgFlag config.FeatureFlag
-		sqlFn   func() (*sql.DB, error)
-		reqBody string
-		wantErr error
-	}{}
+		name       string
+		cfgFlag    config.FeatureFlag
+		sqlFn      func() (*sql.DB, error)
+		id         string
+		wantStatus int
+		wantBody   string
+	}{
+		{"test by id",
+			config.FeatureFlag{},
+			func() (*sql.DB, error) {
+				db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
+				if err != nil {
+					return nil, err
+				}
+				row := sqlmock.NewRows([]string{"id"}).AddRow(1)
+				mock.ExpectQuery(cStmt).WithArgs(1000.0).WillReturnRows(row)
+				return db, err
+			},
+			`1`,
+			http.StatusCreated,
+			`{"id": 1, "balance": 1000.0}`,
+		},
+	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			e := echo.New()
-			req := httptest.NewRequest(http.MethodGet, "/cloud-pockets", strings.NewReader(""))
+			req := httptest.NewRequest(http.MethodGet, "/cloud-pockets/", strings.NewReader(""))
+
 			req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 			rec := httptest.NewRecorder()
 			c := e.NewContext(req, rec)
 
+			c.SetPath("/:id")
+			c.SetParamNames("id")
+			c.SetParamValues("1")
+
 			// db, _ := tc.sqlFn()
 			h := New(tc.cfgFlag, nil)
 
-			resp := h.GetById(c)
-			// Assertions
-			assert.Equal(t, http.StatusOK, resp)
+			if assert.NoError(t, h.GetById(c)) {
+				assert.Equal(t, http.StatusOK, rec.Code)
+			}
 		})
 	}
 }
