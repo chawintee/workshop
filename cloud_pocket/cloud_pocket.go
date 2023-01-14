@@ -1,4 +1,4 @@
-package account
+package cloudpocket
 
 import (
 	"database/sql"
