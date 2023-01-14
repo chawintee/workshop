@@ -26,8 +26,8 @@ func New(cfgFlag config.FeatureFlag, db *sql.DB) *handler {
 }
 
 const (
-	cStmt         = "INSERT INTO accounts (balance) VALUES ($1) RETURNING id;"
-	cBalanceLimit = 10000
+	cStmt = "INSERT INTO cloud_pockets (balance, name, category, currency) VALUES ($1, $2, $3, $4) RETURNING id;"
+	// cBalanceLimit = 10000
 )
 
 var (
