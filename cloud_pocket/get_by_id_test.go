@@ -29,13 +29,13 @@ func TestGetById(t *testing.T) {
 				if err != nil {
 					return nil, err
 				}
-				row := sqlmock.NewRows([]string{"id"}).AddRow(1)
-				mock.ExpectQuery(cStmt).WithArgs(1000.0).WillReturnRows(row)
+				row := sqlmock.NewRows([]string{"id", "balance", "name", "category", "currency"}).AddRow(1, 100.00, "Junk food", "food", "THB")
+				mock.ExpectQuery(getDetailStmt).WithArgs(1).WillReturnRows(row)
 				return db, err
 			},
 			`1`,
 			http.StatusCreated,
-			`{"id": 1, "balance": 1000.0}`,
+			`{"id": 1, "balance": 100.00, "name": "Junk food", "category": "food", "currency": "THB"}`,
 		},
 	}
 	for _, tc := range tests {
@@ -51,8 +51,8 @@ func TestGetById(t *testing.T) {
 			c.SetParamNames("id")
 			c.SetParamValues("1")
 
-			// db, _ := tc.sqlFn()
-			h := New(tc.cfgFlag, nil)
+			db, _ := tc.sqlFn()
+			h := New(tc.cfgFlag, db)
 
 			if assert.NoError(t, h.GetById(c)) {
 				assert.Equal(t, http.StatusOK, rec.Code)
@@ -77,13 +77,13 @@ func TestGetById_No_Param(t *testing.T) {
 				if err != nil {
 					return nil, err
 				}
-				row := sqlmock.NewRows([]string{"id"}).AddRow(1)
-				mock.ExpectQuery(cStmt).WithArgs(1000.0).WillReturnRows(row)
+				row := sqlmock.NewRows([]string{"id", "balance", "name", "category", "currency"}).AddRow(1, 100.00, "Junk food", "food", "THB")
+				mock.ExpectQuery(getDetailStmt).WithArgs(1).WillReturnRows(row)
 				return db, err
 			},
 			`1`,
 			http.StatusCreated,
-			`{"id": 1, "balance": 1000.0}`,
+			`{"id": 1, "balance": 100.00, "name": "Junk food", "category": "food", "currency": "THB"}`,
 		},
 	}
 	for _, tc := range tests {
