@@ -2,6 +2,7 @@ package router
 
 import (
 	"database/sql"
+	cloud_pockets "github.com/kkgo-software-engineering/workshop/cloud-pockets"
 	"net/http"
 
 	"github.com/kkgo-software-engineering/workshop/account"
@@ -32,6 +33,9 @@ func RegRoute(cfg config.Config, logger *zap.Logger, db *sql.DB) *echo.Echo {
 
 	hFeatFlag := featflag.New(cfg)
 	e.GET("/features", hFeatFlag.List)
+
+	cloudPockets := cloud_pockets.New(cfg.FeatureFlag, db)
+	e.POST("/cloud-pockets", cloudPockets.Create)
 
 	return e
 }
