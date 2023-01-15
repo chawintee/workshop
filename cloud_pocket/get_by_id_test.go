@@ -22,7 +22,7 @@ func TestGetById(t *testing.T) {
 		wantStatus int
 		wantBody   string
 	}{
-		{"test by id",
+		{"get pocket detail success fully",
 			config.FeatureFlag{},
 			func() (*sql.DB, error) {
 				db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
@@ -34,7 +34,7 @@ func TestGetById(t *testing.T) {
 				return db, err
 			},
 			`1`,
-			http.StatusCreated,
+			http.StatusOK,
 			`{"id": 1, "balance": 100.00, "name": "Junk food", "category": "food", "currency": "THB"}`,
 		},
 	}
@@ -49,13 +49,13 @@ func TestGetById(t *testing.T) {
 
 			c.SetPath("/:id")
 			c.SetParamNames("id")
-			c.SetParamValues("1")
+			c.SetParamValues(tc.id)
 
 			db, _ := tc.sqlFn()
 			h := New(tc.cfgFlag, db)
 
 			if assert.NoError(t, h.GetById(c)) {
-				assert.Equal(t, http.StatusOK, rec.Code)
+				assert.Equal(t, tc.wantStatus, rec.Code)
 			}
 		})
 	}
