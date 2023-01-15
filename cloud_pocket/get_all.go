@@ -25,7 +25,7 @@ func (h handler) GetAll(c echo.Context) error {
 	var cloudPockets []CloudPocketsResponse
 	for rows.Next() {
 		var p CloudPocketsResponse
-		err = rows.Scan(&p.ID, &p.Name, &p.Category, &p.Currency, &p.Category)
+		err = rows.Scan(&p.ID, &p.Name, &p.Balance, &p.Currency, &p.Category)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err)
