@@ -8,6 +8,8 @@ RUN go mod download
 
 COPY . .
 
+RUN CGO_ENABLED=0 go test --tags=unit -v ./...
+
 RUN go build -o ./out/go-app .
 
 FROM alpine:3.16.2
