@@ -29,6 +29,7 @@ func (h handler) GetById(c echo.Context) error {
 
 	var p CloudPocketsResponse
 	err = rows.Scan(&p.ID, &p.Name, &p.Balance, &p.Currency, &p.Category)
+
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
