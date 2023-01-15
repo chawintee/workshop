@@ -14,7 +14,7 @@ const (
 
 func (h handler) GetAll(c echo.Context) error {
 	logger := mlog.L(c)
-	stmt, err := h.db.Prepare("SELECT id, name, balance, category, currency  FROM cloud_pockets")
+	stmt, err := h.db.Prepare("SELECT id, name, balance, currency, category FROM cloud_pockets")
 	if err != nil {
 		logger.Error("query prepare error", zap.Error(err))
 	}
@@ -22,10 +22,11 @@ func (h handler) GetAll(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
-	cloudPockets := []CloudPocketsResponse{}
+	var cloudPockets []CloudPocketsResponse
 	for rows.Next() {
 		var p CloudPocketsResponse
 		err = rows.Scan(&p.ID, &p.Name, &p.Category, &p.Currency, &p.Category)
+
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err)
 		}
