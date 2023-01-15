@@ -1,4 +1,4 @@
-package cloud_pocket
+package pocket
 
 import (
 	"net/http"
@@ -20,10 +20,10 @@ const (
 //		"create account balance exceed limitation")
 //)
 
-func (h handler) Create(c echo.Context) error {
+func (h handler) CreateCloudPockets(c echo.Context) error {
 	logger := mlog.L(c)
-	var req RequestCloudPockets
-	var res ResponseCloudPockets
+	var req CloudPocketsRequest
+	var res CloudPocketsResponse
 
 	err := c.Bind(&req)
 	if err != nil {

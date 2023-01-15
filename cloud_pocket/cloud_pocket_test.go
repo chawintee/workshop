@@ -1,6 +1,6 @@
 //go:build unit
 
-package cloud_pocket
+package pocket
 
 import (
 	"database/sql"
@@ -69,7 +69,7 @@ func TestCreateAccount(t *testing.T) {
 			h := New(tc.cfgFlag, db)
 			// Assertions
 			assert.NoError(t, err)
-			if assert.NoError(t, h.Create(c)) {
+			if assert.NoError(t, h.CreateCloudPockets(c)) {
 				assert.Equal(t, tc.wantStatus, rec.Code)
 				assert.JSONEq(t, tc.wantBody, rec.Body.String())
 			}
@@ -128,7 +128,7 @@ func TestCreateAccount_Error(t *testing.T) {
 			db, _ := tc.sqlFn()
 			h := New(tc.cfgFlag, db)
 
-			berr := h.Create(c)
+			berr := h.CreateCloudPockets(c)
 			// Assertions
 			assert.Equal(t, berr, tc.wantErr)
 		})

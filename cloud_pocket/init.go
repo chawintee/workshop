@@ -1,4 +1,4 @@
-package cloud_pocket
+package pocket
 
 import (
 	"database/sql"
@@ -6,7 +6,7 @@ import (
 	"github.com/kkgo-software-engineering/workshop/config"
 )
 
-type ResponseCloudPockets struct {
+type CloudPocketsResponse struct {
 	ID       int64   `json:"id"`
 	Name     string  `json:"name"`
 	Category string  `json:"category"`
@@ -14,7 +14,7 @@ type ResponseCloudPockets struct {
 	Balance  float64 `json:"balance"`
 }
 
-type RequestCloudPockets struct {
+type CloudPocketsRequest struct {
 	Name           string  `json:"name"`
 	Currency       string  `json:"currency"`
 	InitialBalance float64 `json:"initial_balance"`

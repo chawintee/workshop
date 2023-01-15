@@ -1,4 +1,4 @@
-package cloud_pocket
+package pocket
 
 import (
 	"bytes"
@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	req = RequestCloudPockets{
+	req = CloudPocketsRequest{
 		Name:           "Test name",
 		Currency:       "THB",
 		InitialBalance: 400.00,
@@ -21,10 +21,9 @@ var (
 	}
 )
 
-func TestAddExpenses(t *testing.T) {
+func TestAddPocket(t *testing.T) {
 	// Mock
 	db, mock, _ := sqlmock.New()
-
 	createStmt := `INSERT INTO cloud_pockets (name,balance,currency,category, account_id)
                      values ($1,$2,$3,$4,$5)
                      RETURNING name,balance,currency,category,id;`

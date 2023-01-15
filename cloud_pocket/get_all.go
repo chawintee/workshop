@@ -1,4 +1,4 @@
-package cloud_pocket
+package pocket
 
 import (
 	"net/http"
@@ -22,9 +22,9 @@ func (h handler) GetAll(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
-	cloudPockets := []ResponseCloudPockets{}
+	cloudPockets := []CloudPocketsResponse{}
 	for rows.Next() {
-		var p ResponseCloudPockets
+		var p CloudPocketsResponse
 		err = rows.Scan(&p.ID, &p.Name, &p.Category, &p.Currency, &p.Category)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err)
