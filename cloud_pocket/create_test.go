@@ -6,14 +6,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/kkgo-software-engineering/workshop/config"
-	"github.com/labstack/echo/v4"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
 	"testing"
+
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/kkgo-software-engineering/workshop/config"
+	"github.com/labstack/echo/v4"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
