@@ -1,4 +1,4 @@
-package cloud_pocket
+package pocket
 
 import (
 	"errors"

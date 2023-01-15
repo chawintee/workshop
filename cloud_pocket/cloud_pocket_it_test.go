@@ -1,6 +1,6 @@
 //go:build integration
 
-package cloud_pocket
+package pocket
 
 import (
 	"database/sql"
@@ -27,7 +27,7 @@ func TestCreateAccountIT(t *testing.T) {
 
 	hAccount := New(cfgFlag, sql)
 
-	e.POST("/accounts", hAccount.Create)
+	e.POST("/accounts", hAccount.CreateCloudPockets)
 
 	reqBody := `{"balance": 999.99}`
 	req := httptest.NewRequest(http.MethodPost, "/accounts", strings.NewReader(reqBody))

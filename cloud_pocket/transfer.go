@@ -1,4 +1,4 @@
-package cloud_pocket
+package pocket
 
 import (
 	"net/http"
@@ -65,5 +65,5 @@ func (h handler) Transfer(c echo.Context) error {
 
 	logger.Info("transfer successfully", zap.Int64("transaction_id", lastInsertId))
 	t.TransactionID = lastInsertId
-	return c.JSON(http.StatusCreated, t)
+	return c.JSON(http.StatusOK, t)
 }
